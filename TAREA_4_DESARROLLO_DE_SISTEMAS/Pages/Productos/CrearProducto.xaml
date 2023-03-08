@@ -1,0 +1,197 @@
+﻿<UserControl x:Class="TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Productos.CrearProducto"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d"
+             x:Name="test"
+             Loaded="Page_Loaded">
+
+
+    <hc:Card Width="400"
+             Height="Auto"
+             BorderThickness="2">
+        <!--HEADER-->
+        <hc:Card.Header>
+
+            <TextBlock x:Name="title"
+                       Padding="15"
+                       Text="Agregar Producto"
+                       FontSize="18"
+                       FontWeight="Bold" />
+        </hc:Card.Header>
+        <!-- FIN HEADER-->
+
+        <!--FORMULARIO-->
+        <Border CornerRadius="4,4,0,0"
+                Padding="10 0"
+                Margin="0 0 0 30">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+
+
+                </Grid.RowDefinitions>
+
+
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <hc:TextBox Grid.Row="0"
+                                x:Name="txtDescripcion"
+                                hc:InfoElement.Placeholder="Ej: Cerveza Buzz"
+                                hc:InfoElement.Title="Descripcion"
+                                hc:InfoElement.Necessary="True"
+                                Margin="0,16,0,0"
+                                TextChanged="TextBox_TextChanged">
+                    </hc:TextBox>
+
+                    <Label x:Name="lblDescripcion"
+                           Content="Campo invalido"
+                           Grid.Row="1"
+                           HorizontalAlignment="Left"
+                           FontSize="12"
+                           Background="{x:Null}"
+                           BorderBrush="{x:Null}"
+                           Padding="0"
+                           Margin="5 0"
+                           Height="20"
+                           Foreground="#FFC12020"
+                           Visibility="Collapsed" />
+                </Grid>
+
+                <Grid Grid.Row="1"
+                      Margin="0,10,0,15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <ComboBox x:Name="cbxUnidad"
+                              hc:InfoElement.Placeholder="Selecciona una unidad"
+                              hc:InfoElement.Title="Unidad"
+                              Style="{StaticResource ComboBoxExtend}"
+                              hc:InfoElement.Necessary="True"
+                              SelectionChanged="cbxUnidad_SelectionChanged"/>
+
+
+                    <Label x:Name="lblUnidad"
+                           Content="Campo invalido"
+                           Grid.Row="2"
+                           HorizontalAlignment="Left"
+                           FontSize="12"
+                           Background="{x:Null}"
+                           BorderBrush="{x:Null}"
+                           Padding="0"
+                           Margin="5 0"
+                           Height="20"
+                           Foreground="#FFC12020"
+                           Visibility="Collapsed" />
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <hc:TextBox Grid.Row="0"
+                                x:Name="txtPrecio"
+                                hc:InfoElement.Placeholder="Ej: 99.99"
+                                hc:InfoElement.Title="Precio"
+                                hc:InfoElement.Necessary="True"
+                                TextChanged="TextBox_TextChanged"
+                                PreviewTextInput="OnlyDecimal_PreviewTextInput">
+
+                    </hc:TextBox>
+
+                    <Label x:Name="lblPrecio"
+                           Content="Campo invppqqalido"
+                           Grid.Row="1"
+                           HorizontalAlignment="Left"
+                           FontSize="12"
+                           Background="{x:Null}"
+                           BorderBrush="{x:Null}"
+                           Padding="0"
+                           Margin="5 0"
+                           Height="20"
+                           Foreground="#FFC12020"
+                           Visibility="Collapsed" 
+                           />
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <hc:TextBox Grid.Row="0"
+                                x:Name="txtStock"
+                                hc:InfoElement.Placeholder="Ej: 10"
+                                hc:InfoElement.Title="Stock"
+                                hc:InfoElement.Necessary="True"
+                                Margin="0,16,0,0"
+                                TextChanged="TextBox_TextChanged"
+                                PreviewTextInput="OnlyInt_PreviewTextInput">
+
+                    </hc:TextBox>
+
+                    <Label x:Name="lblStock"
+                           Content="Campo invalido"
+                           Grid.Row="1"
+                           HorizontalAlignment="Left"
+                           FontSize="12"
+                           Background="{x:Null}"
+                           BorderBrush="{x:Null}"
+                           Padding="0"
+                           Margin="5 0"
+                           Height="20"
+                           Foreground="#FFC12020"
+                           Visibility="Collapsed" />
+                </Grid>
+            </Grid>
+        </Border>
+        <!--FIN FORMULARIO-->
+
+        <!--FOOTER-->
+        <hc:Card.Footer>
+            <Border Padding="0 20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            Command="hc:ControlCommands.Close"
+                            Content="Cancelar"
+                            Width="100"
+                            Cursor="Hand"
+                            Style="{StaticResource ButtonDanger}" />
+
+                    <Button x:Name="btnAgregar"
+                            Grid.Column="1"
+                            Width="100"
+                            Click="btnAgregar_Click"
+                            Content="Agregar"
+                            Cursor="Hand"
+                            Style="{StaticResource ButtonPrimary}" />
+
+                </Grid>
+            </Border>
+        </hc:Card.Footer>
+    </hc:Card>
+
+</UserControl>

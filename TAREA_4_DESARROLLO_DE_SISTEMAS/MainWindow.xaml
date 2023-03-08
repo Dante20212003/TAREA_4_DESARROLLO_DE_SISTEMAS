@@ -1,0 +1,279 @@
+﻿<Window x:Class="TAREA_4_DESARROLLO_DE_SISTEMAS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:local="clr-namespace:TAREA_4_DESARROLLO_DE_SISTEMAS"
+        mc:Ignorable="d"
+        Title="Tarea4_AriasDante"
+        Height="720"
+        Width="1380"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Normal"
+        MinWidth="600"
+        MinHeight="400">
+
+
+    <!--Background="{DynamicResource RegionBrush}"-->
+    <Border Background="{DynamicResource RegionBrush}"
+            CornerRadius="8">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+
+            <!--MENU SIDEBAR-->
+            <Border CornerRadius="8 0 0 8"
+                    Background="{DynamicResource RegionBrush}">
+                <Grid x:Name="gridMenu"
+                      Width="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="80" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+
+                    <!--BOTON HAMBURGUESA-->
+                    <ToggleButton Margin="0"
+                                  x:Name="btnMenu"
+                                  HorizontalAlignment="Right"
+                                  BorderThickness="0"
+                                  VerticalAlignment="Center"
+                                  Content="{DynamicResource MenuIcon}">
+
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="gridMenu"
+                                                         Storyboard.TargetProperty="Width"
+                                                         BeginTime="0:0:0"
+                                                         From="50"
+                                                         To="200"
+                                                         Duration="0:0:0.3">
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="gridMenu"
+                                                         Storyboard.TargetProperty="Width"
+                                                         BeginTime="0:0:0"
+                                                         From="200"
+                                                         To="50"
+                                                         Duration="0:0:0.3">
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
+                    </ToggleButton>
+                    <!--FIN BOTON HAMBURGUESA-->
+
+
+                    <!--INFO USUARIO-->
+                    <StackPanel Grid.Row="1"
+                                VerticalAlignment="Bottom"
+                                Orientation="Horizontal"
+                                Width="200"
+                                Margin="0 0 0 20">
+                        <Ellipse Width="40"
+                                 Height="40"
+                                 Margin="10 0 0 0">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="https://xsgames.co/randomusers/avatar.php?g=male" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <StackPanel Orientation="Vertical"
+                                    Margin="8 0 0 0">
+                            <Label Content="Dante Arias"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   HorizontalContentAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Background="{x:Null}"
+                                   BorderBrush="{x:Null}" />
+
+                            <Label Content="Administrador"
+                                   FontSize="11"
+                                   FontWeight="Regular"
+                                   HorizontalContentAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   Margin="0 -10 0 0"
+                                   Background="{x:Null}"
+                                   BorderBrush="{x:Null}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <!--FIN INFO USUARIO-->
+
+                    <!--MENU OPCIONES-->
+                    <ScrollViewer Grid.Row="3"
+                                  PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+                        <hc:SideMenu x:Name="sideMenu"
+                                     Height="auto"
+                                     Width="200"
+                                     SelectionChanged="SideMenu_SelectionChanged">
+                            <hc:Interaction.Triggers>
+                                <hc:EventTrigger EventName="SelectionChanged">
+                                    <hc:EventToCommand Command="{Binding SwitchItemCmd}"
+                                                       PassEventArgsToCommand="True" />
+                                </hc:EventTrigger>
+                            </hc:Interaction.Triggers>
+
+                            <hc:SideMenuItem Header="DASHBOARD"
+                                             Padding="8"
+                                             IsSelected="True">
+                                <hc:SideMenuItem.Icon>
+                                    <Icon:PackIconMaterial Kind="Home"
+                                                           Width="25"
+                                                           Height="25" />
+                                </hc:SideMenuItem.Icon>
+                                <hc:SideMenuItem  Padding="7"
+                                                  IsSelected="True"
+                                                  Header="Analiticas"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                    <hc:SideMenuItem.Icon>
+                                        <Icon:PackIconMaterial Kind="GoogleAnalytics" />
+                                    </hc:SideMenuItem.Icon>
+                                </hc:SideMenuItem>
+                            </hc:SideMenuItem>
+
+                            <hc:SideMenuItem Header="CLIENTES"
+                                             Padding="8">
+                                <hc:SideMenuItem.Icon>
+                                    <Icon:PackIconMaterial Kind="AccountGroup"
+                                                           Width="25"
+                                                           Height="25" />
+                                </hc:SideMenuItem.Icon>
+
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Lista de Clientes"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                    <hc:SideMenuItem.Icon>
+                                        <Icon:PackIconMaterial Kind="FormatListBulleted" />
+                                    </hc:SideMenuItem.Icon>
+                                </hc:SideMenuItem>
+
+                                <!--<hc:SideMenuItem  Padding="7"
+                                                  Header="Agregar Cliente"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                    <hc:SideMenuItem.Icon>
+                                        <Icon:PackIconMaterial Kind="AccountPlus" />
+                                    </hc:SideMenuItem.Icon>
+                                </hc:SideMenuItem>-->
+                            </hc:SideMenuItem>
+
+                            <hc:SideMenuItem Header="PRODUCTOS"
+                                             Padding="8">
+                                <hc:SideMenuItem.Icon>
+                                    <Icon:PackIconMaterial Kind="PackageVariant"
+                                                           Width="25"
+                                                           Height="25" />
+                                </hc:SideMenuItem.Icon>
+
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Lista de Productos"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                    <hc:SideMenuItem.Icon>
+                                        <Icon:PackIconMaterial Kind="FormatListBulleted" />
+                                    </hc:SideMenuItem.Icon>
+                                </hc:SideMenuItem>
+
+                            </hc:SideMenuItem>
+
+                            <hc:SideMenuItem Header="PEDIDOS"
+                                             Padding="8">
+                                <hc:SideMenuItem.Icon>
+                                    <Icon:PackIconMaterial Kind="PointOfSale"
+                                                           Width="25"
+                                                           Height="25" />
+                                </hc:SideMenuItem.Icon>
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Lista de Pedidos"
+                                                  Command="{Binding SelectCmd}"
+                                                  CommandParameter="{Binding Header,RelativeSource={RelativeSource Self}}">
+                                    <hc:SideMenuItem.Icon>
+                                        <Icon:PackIconMaterial Kind="FormatListBulleted" />
+                                    </hc:SideMenuItem.Icon>
+                                </hc:SideMenuItem>
+
+                            </hc:SideMenuItem>
+
+                            <hc:SideMenuItem Header="CONFIGURACION"
+                                             Padding="8">
+                                <hc:SideMenuItem.Icon>
+                                    <Icon:PackIconMaterial Kind="Cog"
+                                                           Width="25"
+                                                           Height="25" />
+                                </hc:SideMenuItem.Icon>
+                                <hc:SideMenuItem  Padding="7"
+                                                  Header="Generacion de Data">
+                                    <hc:SideMenuItem.Icon>
+                                        <Icon:PackIconMaterial Kind="AllInclusive" />
+                                    </hc:SideMenuItem.Icon>
+                                </hc:SideMenuItem>
+                            </hc:SideMenuItem>
+                        </hc:SideMenu>
+                    </ScrollViewer>
+
+                    <!--FIN MENU OPCIONES-->
+                </Grid>
+            </Border>
+            <!--FIN MENU SIDEBAR-->
+
+            <!--PRINCIPAL-->
+            <Border Grid.Column="1"
+                    MouseDown="Window_MouseDown">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="279*" />
+                        <RowDefinition Height="16*" />
+                    </Grid.RowDefinitions>
+
+
+
+                    <!--VISTA PRINCIPAL-->
+                    <Border  Grid.Row="1"
+                             Margin="10,10,10,10"
+                             Grid.RowSpan="2">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Frame x:Name="mainNavigaion"
+                                   x:FieldModifier="public"
+                                   NavigationUIVisibility="Hidden"
+                                   Grid.Row="0"
+                                   Grid.Column="0">
+                                <!-- Page Content -->
+                            </Frame>
+                        </Grid>
+                    </Border>
+                    <!--FIN VISTA PRINCIPAL-->
+                </Grid
+
+                 >
+            </Border>
+            <!--FIN PRINCIPAL-->
+        </Grid>
+    </Border>
+
+
+
+</Window>

@@ -1,0 +1,342 @@
+﻿<Page x:Class="TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Pedidos.CrearPedido"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:TAREA_4_DESARROLLO_DE_SISTEMAS.Pages.Pedidos"
+      xmlns:hc="https://handyorg.github.io/handycontrol"
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      mc:Ignorable="d"
+      Title="CrearPedido"
+      Loaded="Page_Loaded"
+      Background="White">
+    <ScrollViewer Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource ButtonPrimary}"
+                    Margin="0 15"
+                    Click="RegresarAtras_Click"
+                  >
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        
+                        <Icon:PackIconMaterial Kind="ArrowLeft" />
+                        <Label Content="Volver a la lista de pedidos"
+                               Background="{x:Null}"
+                               Foreground="White"
+                               BorderBrush="{x:Null}"
+                               />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <WrapPanel HorizontalAlignment="Center" Grid.Row="1">
+                <Grid VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <hc:SearchBar Grid.Row="0"
+                                  hc:InfoElement.ShowClearButton="True"
+                                  hc:InfoElement.Placeholder="Buscar un producto"
+                                  Margin="0,22,0,0"
+                                  Style="{StaticResource SearchBarPlus}"
+                                  SearchStarted="Search_SearchStarted"
+                                  TextChanged="Search_TextChanged" />
+
+                    <DataGrid Grid.Row="1"
+                              Margin="0 20 "
+                              x:Name="DataGridProductos"
+                              HeadersVisibility="All"
+                              RowHeaderWidth="30"
+                              Width="Auto"
+                              AutoGenerateColumns="False"
+                              EnableRowVirtualization="True"
+                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                              VirtualizingPanel.VirtualizationMode="Standard"
+                              VirtualizingPanel.IsVirtualizing="True"
+                              ScrollViewer.CanContentScroll="True"
+                              MaxHeight="400"
+                              SelectionMode="Single"
+                              hc:Empty.ShowEmpty="True">
+
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Agregar a la Orden"
+                                          Click="agregarAPedidoCtxItem_Click" />
+                            </ContextMenu>
+
+                        </DataGrid.ContextMenu>
+
+
+                        <DataGrid.RowHeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=DataGridRow}}" />
+                            </DataTemplate>
+                        </DataGrid.RowHeaderTemplate>
+
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow"
+                                   BasedOn="{StaticResource DataGridRowStyle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Stock}"
+                                                 Value="0.00">
+                                        <Setter Property="Background"
+                                                Value="#FFF9A3A3" />
+
+                                        <Setter Property="IsEnabled"
+                                                Value="False" />
+
+                                        <Setter Property="IsSelected"
+                                                Value="False" />
+
+                                        <Setter Property="ContextMenu"
+                                                Value="{x:Null}" />
+
+                                        <Setter Property="IsHitTestVisible"
+                                                Value="False" />
+                                    </DataTrigger>
+
+                                    <DataTrigger>
+                                        <DataTrigger.Setters>
+
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                </Style.Triggers>
+
+                            </Style>
+
+
+                        </DataGrid.RowStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Producto"
+                                                Binding="{Binding Descripcion}"
+                                                MaxWidth="120"
+                                                IsReadOnly="True" />
+
+
+                            <DataGridTextColumn Binding="{Binding Unidad}"
+                                                Header="Unidad"
+                                                IsReadOnly="True" />
+
+                            <DataGridTextColumn Binding="{Binding Precio}"
+                                                Header="Precio"
+                                                IsReadOnly="True" />
+
+                            <DataGridTextColumn Binding="{Binding Stock}"
+                                                Header="Disponible"
+                                                IsReadOnly="True" />
+
+                            <DataGridTemplateColumn Header="Cantidad"
+                                                    Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <hc:NumericUpDown Value="{Binding Path=Cantidad,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                          Minimum="0.01"
+                                                          DecimalPlaces="2"
+                                                          ValueChanged="NumericUpDown_ValueChanged"
+                                                          Width="60" />
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.CellTemplate>
+
+
+
+                            </DataGridTemplateColumn>
+
+
+                            <!--<DataGridTemplateColumn Header="Fees Amount"
+                                                    Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <hc:NumericUpDown Value="{Binding Path=Cantidad,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                          Name="feesAmountTextBox"
+                                                          PreviewTextInput="feesAmountTextBox_PreviewTextInput" />
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Value}"
+                                                         Value="0">
+                                                <Setter Property="IsEnabled"
+                                                        Value="False" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.CellTemplate>
+
+
+
+
+
+                            </DataGridTemplateColumn>-->
+
+
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+                    <Border Grid.Row="2"
+                            Background="#FFDEDEDE"
+                            Padding="10"
+                            BorderThickness="1"
+                            CornerRadius="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox x:Name="cbxCliente"
+                                      Grid.Column="0"
+                                      hc:InfoElement.Placeholder="Selecciona un cliente"
+                                      Style="{StaticResource ComboBoxExtend}"
+                                      hc:InfoElement.Title="Cliente"
+                                      SelectionChanged="cbxCliente_SelectionChanged"
+                                      IsTextSearchEnabled="True"
+                                      IsEditable="True" />
+
+                            <hc:TextBox x:Name="txtNit"
+                                        Grid.Column="1"
+                                        hc:InfoElement.Placeholder="Nit"
+                                        hc:InfoElement.Title="Nit"
+                                        Margin="7 0"
+                                        IsEnabled="False" />
+
+                            <hc:TextBox x:Name="txtTelefono"
+                                        Grid.Column="2"
+                                        hc:InfoElement.Placeholder="Telefono"
+                                        hc:InfoElement.Title="Telefono"
+                                        IsEnabled="False" />
+
+                        </Grid>
+                    </Border>
+                </Grid>
+
+
+                <Separator Width="50" />
+
+                <Grid VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <ScrollViewer Grid.Row="0"
+                                  x:Name="scrollTablaPedidos"
+                                  HorizontalScrollBarVisibility="Visible"
+                                  Width="auto">
+
+                        <DataGrid Grid.Row="1"
+                                  Margin="0 20"
+                                  x:Name="DataGridPedido"
+                                  HeadersVisibility="All"
+                                  RowHeaderWidth="60"
+                                  Width="500"
+                                  HorizontalAlignment="Center"
+                                  AutoGenerateColumns="False"
+                                  EnableRowVirtualization="True"
+                                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                  VirtualizingPanel.VirtualizationMode="Standard"
+                                  VirtualizingPanel.IsVirtualizing="True"
+                                  ScrollViewer.CanContentScroll="True"
+                                  hc:Empty.ShowEmpty="True">
+
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Quitar del pedido"
+                                              Click="quitarPedido_Click" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+
+                            <DataGrid.RowHeaderTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsSelected,RelativeSource={RelativeSource AncestorType=DataGridRow}}" />
+                                </DataTemplate>
+                            </DataGrid.RowHeaderTemplate>
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Id}"
+                                                    Header="Nro Item"
+                                                    IsReadOnly="True" />
+
+                                <DataGridTextColumn Header="Producto"
+                                                    Binding="{Binding Producto}"
+                                                    MaxWidth="200"
+                                                    IsReadOnly="True">
+                                    <DataGridTextColumn.CellStyle>
+                                        <Style TargetType="DataGridCell"
+                                               BasedOn="{StaticResource DataGridCellStyle}">
+                                            <Setter Property="ToolTip"
+                                                    Value="{Binding Descripcion}" />
+                                        </Style>
+                                    </DataGridTextColumn.CellStyle>
+                                </DataGridTextColumn>
+
+                                <DataGridTextColumn Binding="{Binding Cantidad}"
+                                                    Header="Cantidad"
+                                                    IsReadOnly="True" />
+
+                                <DataGridTextColumn Binding="{Binding Monto}"
+                                                    Header="Precio Total"
+                                                    IsReadOnly="True" />
+
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+
+                    <Border Grid.Row="1">
+                        <StackPanel>
+                            <TextBlock x:Name="totalPagar"
+                                       HorizontalAlignment="Right"
+                                       FontSize="18"
+                                       FontWeight="Bold" />
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0"
+                                        Content="Vaciar Pedido"
+                                        Margin="0 20"
+                                        HorizontalAlignment="Left"
+                                        Cursor="Hand"
+                                        x:Name="btnVaciarPedido"
+                                        Visibility="Hidden"
+                                        Style="{StaticResource ButtonDanger}"
+                                        Click="VaciarPedido_Click" />
+
+                                <Button Grid.Column="1"
+                                        Content="Realizar Pedido"
+                                        Margin="0 20"
+                                        HorizontalAlignment="Right"
+                                        Cursor="Hand"
+                                        x:Name="btnRealizarPedido"
+                                        Visibility="Hidden"
+                                        Style="{StaticResource ButtonPrimary}"
+                                        Click="RealizarPedido_Click" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+
+            </WrapPanel>
+        </Grid>
+    </ScrollViewer>
+
+
+</Page>
